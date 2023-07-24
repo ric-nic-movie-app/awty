@@ -27,7 +27,26 @@ async function getMovies() {
 //Code Quality////////////////////
 //Code is optimized for performance and follows accessibility and security best practices. Code is well-documented and includes tests for functionality and edge cases.
 (async () => {
+    //VARIABLES AND QUERIES///////////////////////
+    //variables
     const movies = await getMovies()
+    //queries
+    const movieCards = document.querySelector(".movie-cards");
+
+    //FUNCTIONS////////////////
+    function renderMovieCards(){
+        console.log('rendering movie cards');
+        movieCards.innerHTML = "";
+        movieCards.innerHTML = (`
+        <div>
+        
+</div>
+        `)
+    }
+    //EVENTS//////////////
+
+    //RUN ON LOAD//////////////
     console.log(movies);
+
 
 })();
