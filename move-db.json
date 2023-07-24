@@ -2,9 +2,87 @@
   "movies": [
     {
       "id": 1,
+      "title": "Rush Hour",
+      "genre": "Comedy",
+      "rating": "4"
+    },
+    {
+      "id": 2,
+      "title": "Ted",
+      "genre": "Comedy",
+      "rating": "3"
+    },
+    {
+      "id": 3,
+      "title": "This is the End",
+      "genre": "Comedy",
+      "rating": "4"
+    },
+    {
+      "id": 4,
+      "title": "Starship Trpoopers",
+      "genre": "Action",
+      "rating": "2"
+    },
+    {
+      "id": 5,
+      "title": "Bullet Train",
+      "genre": "Action",
+      "rating": "3.5"
+    },
+    {
+      "id": 6,
+      "title": "Doom",
+      "genre": "Action",
+      "rating": "2"
+    },
+    {
+      "id": 7,
+      "title": "47 Ronin",
+      "genre": "Action",
+      "rating": "4"
+    },
+    {
+      "id": 8,
+      "title": "The Italian Job",
+      "genre": "Action",
+      "rating": "3.5"
+    },
+    {
+      "id": 9,
+      "title": "Clear and Present Danger",
+      "genre": "Action",
+      "rating": "4"
+    },
+    {
+      "id": 10,
+      "title": "The Highwaymen",
+      "genre": "Crime",
+      "rating": "3.5"
+    },
+    {
+      "id": 11,
+      "title": "The Irishman",
+      "genre": "Crime",
+      "rating": "4"
+    },
+    {
+      "id": 12,
       "title": "",
       "genre": "",
       "rating": ""
+    },
+    {
+      "id": 13,
+      "title": "Reservoir Dogs",
+      "genre": "Thriller",
+      "rating": ""
+    },
+    {
+      "id": 14,
+      "title": "Sci-Fi",
+      "genre": "Time Trap",
+      "rating": "3"
     }
   ]
 }
