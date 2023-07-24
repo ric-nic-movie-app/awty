@@ -1,6 +1,19 @@
 //AJAX REQUESTS/////////////////////
 //AJAX Requests include error handling and loading animation is displayed during request.
 //Buttons are disabled during the request, and the user is given feedback on the status of the requests
+async function getMovies() {
+    const url = 'http://localhost:3000/movies'
+    const options = {
+        method: "GET",
+        headers: {
+            "content-type": "application/json"
+        }
+    }
+    const response = await fetch(url, options);
+    const movies = await response.json();
+    return movies;
+
+}
 
 //DOM Manip/////////////////////////
 //HTML is generated with appropriate CSS styles and animations, and provides an engaging and intuitive user experience.
@@ -13,3 +26,8 @@
 
 //Code Quality////////////////////
 //Code is optimized for performance and follows accessibility and security best practices. Code is well-documented and includes tests for functionality and edge cases.
+(async () => {
+    const movies = await getMovies()
+    console.log(movies);
+
+})();
