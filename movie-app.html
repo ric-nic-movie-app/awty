@@ -15,13 +15,35 @@
 <header class="container">
     <div class="row">
         <div class="column">
-
+            <div class="nav-bar">
+                <div class="logo"><h1>LOGO HERE</h1></div>
+                <div><input class="text-box search-input" type="text" value="" placeholder="search" id="search-input">
+                </div>
+                <div></div>
+            </div>
         </div>
     </div>
 </header>
 <main class="container">
-    <div class="row">
-        <div class="column">
+    <div class="main row">
+        <div class="column side-menu">
+            <h3>MENU</h3>
+            <div>Profile</div>
+            <div>Favorites</div>
+            <h3>CATEGORIES</h3>
+            <ul class="menu-sort-options">
+                <li>Genres</li>
+                <li>Most Popular</li>
+                <li>New</li>
+            </ul>
+            <h3>SUBMIT A MOVIE</h3>
+            <ul class="submit-movie-form">
+                <li><input class="text-box submit-movie-title" id="submit-movie-title" type="text" value="" placeholder="Title"></li>
+                <li><input class="text-box submit-movie-genre" id="submit-movie-genre" type="text" value="" placeholder="Genre"></li>
+            </ul>
+        </div>
+        <div class="column movies-container">
+            <h3>ALL MOVIES</h3>
             <div class="movie-cards"></div>
         </div>
     </div>

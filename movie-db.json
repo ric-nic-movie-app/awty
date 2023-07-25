@@ -68,18 +68,12 @@
     },
     {
       "id": 12,
-      "title": "",
-      "genre": "",
-      "rating": ""
-    },
-    {
-      "id": 13,
       "title": "Reservoir Dogs",
       "genre": "Thriller",
       "rating": ""
     },
     {
-      "id": 14,
+      "id": 13,
       "title": "Sci-Fi",
       "genre": "Time Trap",
       "rating": "3"

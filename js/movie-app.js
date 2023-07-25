@@ -32,21 +32,66 @@ async function getMovies() {
     const movies = await getMovies()
     //queries
     const movieCards = document.querySelector(".movie-cards");
+    const searchInput = document.querySelector("#search-input");
+    const sideMenuToggle = document.querySelector(".logo");
+    const sideMenu = document.querySelector(".column.side-menu");
 
     //FUNCTIONS////////////////
-    function renderMovieCards(){
+    function renderAllMovieCards() {
         console.log('rendering movie cards');
         movieCards.innerHTML = "";
-        movieCards.innerHTML = (`
-        <div>
-        
-</div>
-        `)
+        movies.forEach((movie) => {
+            movieCards.innerHTML += (`
+            <div class="movie-card">
+            <p>${movie.title}</p>
+            <p>${movie.genre}</p>
+            </div>    
+            `)
+        })
     }
+
+    function renderSearchedMovies(movies) {
+        console.log('rendering searched movie cards');
+        movieCards.innerHTML = "";
+        movies.forEach((movie) => {
+            movieCards.innerHTML += (`
+            <div class="movie-card">
+            <p>${movie.title}</p>
+            <p>${movie.genre}</p>
+            </div>    
+            `)
+        })
+    }
+
+    function searchMovies(keyword) {
+        console.log(keyword);
+        const searchedMovies = movies.filter((movie) => {
+            const movieTitle = movie.title.toLowerCase();
+            if (movieTitle.includes(keyword) || movie.title.includes(keyword)) {
+                return movie;
+            }
+            ;
+        })
+        console.log(searchedMovies);
+        renderSearchedMovies(searchedMovies);
+    }
+
     //EVENTS//////////////
+    searchInput.addEventListener('keyup', (event) => {
+        searchMovies(searchInput.value);
+    })
+
+    sideMenuToggle.addEventListener('mouseover', (e) => {
+        sideMenu.style.display = "flex";
+        // console.log('click');
+    });
+
+    sideMenu.addEventListener('mouseleave', (e)=>{
+        sideMenu.style.display = "none";
+    })
 
     //RUN ON LOAD//////////////
     console.log(movies);
-
+    renderAllMovieCards();
 
 })();

@@ -1,0 +1,90 @@
+body {
+    background-color: black;
+    color: dodgerblue;
+    font-family: sans-serif;
+}
+
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    border-bottom: solid 2px;
+}
+
+.logo {
+    display: flex;
+    flex-grow: 1;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+}
+
+.movies-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.column.side-menu {
+    /*display: flex;*/
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background-color: black;
+    border-right: solid 2px;
+    padding-right: 20px;
+    height: 100%;
+}
+
+h3 {
+    margin-bottom: 0;
+}
+
+.menu-sort-options {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.submit-movie-form {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.movie-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.movie-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    width: 200px;
+    /*border: solid 2px;*/
+    border-radius: 5px;
+    background-color: rgba(30, 144, 255, 0.49);
+    color: black;
+    margin: 3px;
+}
+
+.text-box {
+    display: flex;
+    flex-direction: row;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    font-size: 15px;
+}
+
+.submit-movie-title {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
