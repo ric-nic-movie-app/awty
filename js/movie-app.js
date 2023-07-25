@@ -44,6 +44,25 @@ async function deleteMovie(id) {
         .catch(error => console.error(error));
 }
 
+async function updateMovie(title, genre, id) {
+    const updatedMovieInfo = {title: `${title}`, genre: `${genre}`};
+    const url = `http://localhost:3000/movies/${id}`
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(updatedMovieInfo)
+    }
+    fetch(url, options)
+        .then(response => {
+            // const movies = response.json()
+            console.log(`updated ${title}`)
+        })
+        .catch(error => console.error(error));
+
+}
+
 //DOM Manip/////////////////////////
 //HTML is generated with appropriate CSS styles and animations, and provides an engaging and intuitive user experience.
 
@@ -70,6 +89,7 @@ async function deleteMovie(id) {
     const submitMovieBtn = document.querySelector("#submit-movie-btn");
     let allMovieCards;
     const movieCard = document.querySelector('.movie-cards');
+    let editForm;
 
     //FUNCTIONS////////////////
     function renderAllMovieCards() {
@@ -113,6 +133,37 @@ async function deleteMovie(id) {
         renderSearchedMovies(searchedMovies);
     }
 
+    function renderEditForm(card) {
+        card.innerHTML += (`
+            <div class="edit-form">
+            <input type="text" class="edit-title" value="">
+            <input type="text" class="edit-genre" value="">
+            <button class="edit-submit-btn">OK</button>
+            <button class="edit-cancel-btn">CANCEL</button>
+            </div>
+            `)
+        let newTitle = document.querySelector('.edit-title');
+        let newGenre = document.querySelector('.edit-genre');
+
+        let editCancel = document.querySelector('.edit-cancel-btn')
+            .addEventListener('click', (event) => {
+                let form = event.target.parentElement;
+                form.remove();
+            });
+
+        let editSubmit = document.querySelector('.edit-submit-btn')
+            .addEventListener('click', (event) => {
+                let currentTitle = event.target.parentElement.parentElement.firstElementChild.innerHTML;
+                console.log(currentTitle);
+                let movieId = movies.filter((movie) => {
+                    return movie.title === currentTitle;
+                });
+                updateMovie(newTitle.value, newGenre.value, movieId[0].id);
+                let form = event.target.parentElement;
+                form.remove();
+            })
+    }
+
     //EVENTS//////////////
     searchInput.addEventListener('keyup', (event) => {
         searchMovies(searchInput.value);
@@ -126,9 +177,9 @@ async function deleteMovie(id) {
     })
     submitMovieBtn.addEventListener('click', async () => {
 
-            await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
-            movies = await getMovies();
-            await renderAllMovieCards();
+        await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
+        movies = await getMovies();
+        await renderAllMovieCards();
     })
     movieCards.addEventListener('click', async (event) => {
         if (event.target.innerHTML === 'X') {
@@ -145,7 +196,8 @@ async function deleteMovie(id) {
                     })
                 alert(`${movieTitle} Deleted!`);
             }
-
+        } else if (event.target.innerHTML === 'EDIT') {
+            renderEditForm(event.target.parentElement);
         }
     })
 

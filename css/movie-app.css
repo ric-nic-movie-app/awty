@@ -88,3 +88,15 @@ h3 {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.edit-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    align-items: center;
+    height: 100px;
+    width: 200px;
+    border: 2px solid;
+    background-color: rgba(0, 0, 0, 0.73);
+}
