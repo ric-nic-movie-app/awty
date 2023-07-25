@@ -12,8 +12,26 @@ async function getMovies() {
     const response = await fetch(url, options);
     const movies = await response.json();
     return movies;
-
 }
+
+async function addMovie(title, genre) {
+    const newMovie = {title: `${title}`, genre: `${genre}`};
+    const url = 'http://localhost:3000/movies'
+    const options = {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newMovie)
+    }
+    fetch(url, options)
+        .then(response => {
+            // const movies = response.json()
+            console.log(`added ${title}`)
+        })
+        .catch(error => console.error(error));
+}
+
 
 //DOM Manip/////////////////////////
 //HTML is generated with appropriate CSS styles and animations, and provides an engaging and intuitive user experience.
@@ -29,12 +47,16 @@ async function getMovies() {
 (async () => {
     //VARIABLES AND QUERIES///////////////////////
     //variables
-    const movies = await getMovies()
+    let movies = await getMovies()
     //queries
     const movieCards = document.querySelector(".movie-cards");
     const searchInput = document.querySelector("#search-input");
     const sideMenuToggle = document.querySelector(".logo");
     const sideMenu = document.querySelector(".column.side-menu");
+    const submitMovieTitleTextBox = document.querySelector("#submit-movie-title");
+    const submitMovieGenre = document.querySelector("#submit-movie-genre");
+    const submitMovieBtn = document.querySelector("#submit-movie-btn");
+    let allMovieCards;
 
     //FUNCTIONS////////////////
     function renderAllMovieCards() {
@@ -43,11 +65,14 @@ async function getMovies() {
         movies.forEach((movie) => {
             movieCards.innerHTML += (`
             <div class="movie-card">
-            <p>${movie.title}</p>
-            <p>${movie.genre}</p>
+            <h4 class="movie-card-title">${movie.title}</h4>
+            <p class="movie-card-genre">${movie.genre}</p>
+            <span class="edit-movie">EDIT</span><span class="delete-movie">X</span>
             </div>    
             `)
+            allMovieCards = document.querySelectorAll('.movie-card');
         })
+        console.log(allMovieCards);
     }
 
     function renderSearchedMovies(movies) {
@@ -86,8 +111,13 @@ async function getMovies() {
         // console.log('click');
     });
 
-    sideMenu.addEventListener('mouseleave', (e)=>{
+    sideMenu.addEventListener('mouseleave', (e) => {
         sideMenu.style.display = "none";
+    })
+    submitMovieBtn.addEventListener('click', async () => {
+        await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
+        movies = await getMovies();
+        await renderAllMovieCards();
     })
 
     //RUN ON LOAD//////////////
