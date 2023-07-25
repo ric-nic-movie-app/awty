@@ -32,6 +32,17 @@ async function addMovie(title, genre) {
         .catch(error => console.error(error));
 }
 
+async function deleteMovie(id) {
+    const url = `http://localhost:3000/movies/${id}`
+    const options = {
+        method: 'DELETE'
+    }
+    fetch(url, options)
+        .then(response => {
+            console.log(`deleted`)
+        })
+        .catch(error => console.error(error));
+}
 
 //DOM Manip/////////////////////////
 //HTML is generated with appropriate CSS styles and animations, and provides an engaging and intuitive user experience.
@@ -44,10 +55,11 @@ async function addMovie(title, genre) {
 
 //Code Quality////////////////////
 //Code is optimized for performance and follows accessibility and security best practices. Code is well-documented and includes tests for functionality and edge cases.
+
 (async () => {
     //VARIABLES AND QUERIES///////////////////////
     //variables
-    let movies = await getMovies()
+    let movies = await getMovies();
     //queries
     const movieCards = document.querySelector(".movie-cards");
     const searchInput = document.querySelector("#search-input");
@@ -57,22 +69,22 @@ async function addMovie(title, genre) {
     const submitMovieGenre = document.querySelector("#submit-movie-genre");
     const submitMovieBtn = document.querySelector("#submit-movie-btn");
     let allMovieCards;
+    const movieCard = document.querySelector('.movie-cards');
 
     //FUNCTIONS////////////////
     function renderAllMovieCards() {
-        console.log('rendering movie cards');
         movieCards.innerHTML = "";
         movies.forEach((movie) => {
             movieCards.innerHTML += (`
             <div class="movie-card">
             <h4 class="movie-card-title">${movie.title}</h4>
             <p class="movie-card-genre">${movie.genre}</p>
-            <span class="edit-movie">EDIT</span><span class="delete-movie">X</span>
+            <span class="edit-movie">EDIT</span>
+            <span class="delete-movie">X</span>
             </div>    
             `)
             allMovieCards = document.querySelectorAll('.movie-card');
         })
-        console.log(allMovieCards);
     }
 
     function renderSearchedMovies(movies) {
@@ -105,23 +117,40 @@ async function addMovie(title, genre) {
     searchInput.addEventListener('keyup', (event) => {
         searchMovies(searchInput.value);
     })
-
     sideMenuToggle.addEventListener('mouseover', (e) => {
         sideMenu.style.display = "flex";
         // console.log('click');
     });
-
     sideMenu.addEventListener('mouseleave', (e) => {
         sideMenu.style.display = "none";
     })
     submitMovieBtn.addEventListener('click', async () => {
-        await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
-        movies = await getMovies();
-        await renderAllMovieCards();
+
+            await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
+            movies = await getMovies();
+            await renderAllMovieCards();
     })
+    movieCards.addEventListener('click', async (event) => {
+        if (event.target.innerHTML === 'X') {
+            let movieTitle = event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
+            let card = event.target.parentElement;
+            let movieToDelete = movies.filter((movie) => {
+                return movie.title === movieTitle;
+            })
+            let confirmDelete = confirm(`Delete ${movieTitle}?`);
+            if (confirmDelete) {
+                await deleteMovie(movieToDelete[0].id)
+                    .then(() => {
+                        card.remove();
+                    })
+                alert(`${movieTitle} Deleted!`);
+            }
+
+        }
+    })
+
 
     //RUN ON LOAD//////////////
     console.log(movies);
     renderAllMovieCards();
-
 })();
