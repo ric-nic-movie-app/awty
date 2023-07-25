@@ -4,12 +4,6 @@
       "id": 1,
       "title": "Rush Hour",
       "genre": "Comedy",
-      "rating": "4"
-    },
-    {
-      "id": 2,
-      "title": "Ted",
-      "genre": "Comedy",
       "rating": "3"
     },
     {
@@ -49,12 +43,6 @@
       "rating": "3.5"
     },
     {
-      "id": 9,
-      "title": "Clear and Present Danger",
-      "genre": "Action",
-      "rating": "4"
-    },
-    {
       "id": 10,
       "title": "The Highwaymen",
       "genre": "Crime",
@@ -73,23 +61,12 @@
       "rating": ""
     },
     {
-      "id": 13,
-      "title": "Sci-Fi",
-      "genre": "Time Trap",
-      "rating": "3"
-    },
-    {
-      "title": "",
-      "genre": "",
+      "title": "Ted",
+      "genre": "Comedy",
       "id": 14
     },
     {
-      "title": "",
-      "genre": "",
-      "id": 15
-    },
-    {
-      "title": "",
+      "title": "Test",
       "genre": "",
       "id": 16
     }

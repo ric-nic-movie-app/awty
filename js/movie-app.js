@@ -32,6 +32,17 @@ async function addMovie(title, genre) {
         .catch(error => console.error(error));
 }
 
+async function deleteMovie(id) {
+    const url = `http://localhost:3000/movies/${id}`
+    const options = {
+        method: 'DELETE'
+    }
+    fetch(url, options)
+        .then(response => {
+            console.log(`deleted`)
+        })
+        .catch(error => console.error(error));
+}
 
 //DOM Manip/////////////////////////
 //HTML is generated with appropriate CSS styles and animations, and provides an engaging and intuitive user experience.
@@ -57,22 +68,22 @@ async function addMovie(title, genre) {
     const submitMovieGenre = document.querySelector("#submit-movie-genre");
     const submitMovieBtn = document.querySelector("#submit-movie-btn");
     let allMovieCards;
+    const movieCard = document.querySelector('.movie-cards');
 
     //FUNCTIONS////////////////
     function renderAllMovieCards() {
-        console.log('rendering movie cards');
         movieCards.innerHTML = "";
         movies.forEach((movie) => {
             movieCards.innerHTML += (`
             <div class="movie-card">
             <h4 class="movie-card-title">${movie.title}</h4>
             <p class="movie-card-genre">${movie.genre}</p>
-            <span class="edit-movie">EDIT</span><span class="delete-movie">X</span>
+            <span class="edit-movie">EDIT</span>
+            <span class="delete-movie">X</span>
             </div>    
             `)
             allMovieCards = document.querySelectorAll('.movie-card');
         })
-        console.log(allMovieCards);
     }
 
     function renderSearchedMovies(movies) {
@@ -119,9 +130,16 @@ async function addMovie(title, genre) {
         movies = await getMovies();
         await renderAllMovieCards();
     })
-
+    movieCards.addEventListener('click', async (event) => {
+        if (event.target.innerHTML === 'X') {
+            let movieTitle = event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
+            let movieToDelete = movies.filter((movie) => {
+                return movie.title === movieTitle;
+            })
+            await deleteMovie(movieToDelete[0].id)
+        }
+    })
     //RUN ON LOAD//////////////
     console.log(movies);
     renderAllMovieCards();
-
 })();
