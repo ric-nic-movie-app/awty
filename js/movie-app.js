@@ -55,10 +55,11 @@ async function deleteMovie(id) {
 
 //Code Quality////////////////////
 //Code is optimized for performance and follows accessibility and security best practices. Code is well-documented and includes tests for functionality and edge cases.
+
 (async () => {
     //VARIABLES AND QUERIES///////////////////////
     //variables
-    let movies = await getMovies()
+    let movies = await getMovies();
     //queries
     const movieCards = document.querySelector(".movie-cards");
     const searchInput = document.querySelector("#search-input");
@@ -116,29 +117,39 @@ async function deleteMovie(id) {
     searchInput.addEventListener('keyup', (event) => {
         searchMovies(searchInput.value);
     })
-
     sideMenuToggle.addEventListener('mouseover', (e) => {
         sideMenu.style.display = "flex";
         // console.log('click');
     });
-
     sideMenu.addEventListener('mouseleave', (e) => {
         sideMenu.style.display = "none";
     })
     submitMovieBtn.addEventListener('click', async () => {
-        await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
-        movies = await getMovies();
-        await renderAllMovieCards();
+
+            await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
+            movies = await getMovies();
+            await renderAllMovieCards();
     })
     movieCards.addEventListener('click', async (event) => {
         if (event.target.innerHTML === 'X') {
             let movieTitle = event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
+            let card = event.target.parentElement;
             let movieToDelete = movies.filter((movie) => {
                 return movie.title === movieTitle;
             })
-            await deleteMovie(movieToDelete[0].id)
+            let confirmDelete = confirm(`Delete ${movieTitle}?`);
+            if (confirmDelete) {
+                await deleteMovie(movieToDelete[0].id)
+                    .then(() => {
+                        card.remove();
+                    })
+                alert(`${movieTitle} Deleted!`);
+            }
+
         }
     })
+
+
     //RUN ON LOAD//////////////
     console.log(movies);
     renderAllMovieCards();
