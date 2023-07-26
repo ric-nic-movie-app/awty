@@ -1,4 +1,5 @@
 let loaderAnim = document.querySelector('.loading');
+
 //Functions to talk to the Database/////////////////////////////////
 async function getMovies() {
     loaderAnim.style.display = 'flex';
@@ -19,6 +20,7 @@ async function getMovies() {
         console.log(error.message);
     }
 }
+
 async function addMovie(title, genre) {
     loaderAnim.style.display = 'flex';
     const newMovie = {title: `${title}`, genre: `${genre}`, rating: ""};
@@ -37,6 +39,7 @@ async function addMovie(title, genre) {
         })
         .catch(error => console.error(error));
 }
+
 async function deleteMovie(id) {
     loaderAnim.style.display = 'flex';
     const url = `http://localhost:3000/movies/${id}`
@@ -50,6 +53,7 @@ async function deleteMovie(id) {
         })
         .catch(error => console.error(error));
 }
+
 async function updateMovie(title, genre, rating, id) {
     loaderAnim.style.display = 'flex';
     const updatedMovieInfo = {title: `${title}`, genre: `${genre}`, rating: `${rating}`};
@@ -113,6 +117,7 @@ async function updateMovie(title, genre, rating, id) {
             allMovieCards = document.querySelectorAll('.movie-card');
         })
     }
+
     function renderSearchedMovies(movies) {
         movieCards.innerHTML = "";
         movies.forEach((movie) => {
@@ -135,6 +140,7 @@ async function updateMovie(title, genre, rating, id) {
             `)
         })
     }
+
     function searchMovies(keyword) {
         const searchedMovies = movies.filter((movie) => {
             const movieTitle = movie.title.toLowerCase();
@@ -144,6 +150,7 @@ async function updateMovie(title, genre, rating, id) {
         })
         renderSearchedMovies(searchedMovies);
     }
+
     function renderEditForm(card) {
         let currentTitle = card.parentElement.firstElementChild.nextElementSibling.innerHTML;
         let currentGenre = card.parentElement.firstElementChild.nextElementSibling.nextElementSibling.innerHTML;
@@ -180,7 +187,7 @@ async function updateMovie(title, genre, rating, id) {
                     alert('Please Enter a Number');
                 } else {
                     let confirmEdit = confirm(`Save Changes`);
-                    if(confirmEdit){
+                    if (confirmEdit) {
                         let movieId = movies.filter((movie) => {
                             return movie.title === currentTitle;
                         });
@@ -198,12 +205,13 @@ async function updateMovie(title, genre, rating, id) {
 
             })
     }
-    function renderFavorites(favoritesList){
+
+    function renderFavorites(favoritesList) {
         favoritesListDiv.innerHTML = "";
         favoritesListDiv.innerHTML = (`
         <h4>FAVORITES</h4>
         `);
-        favoritesList.forEach((movie)=>{
+        favoritesList.forEach((movie) => {
             favoritesListDiv.innerHTML += (`
             <p class="fav-item">${movie}</p>
             `)
@@ -215,16 +223,16 @@ async function updateMovie(title, genre, rating, id) {
         searchMovies(searchInput.value);
     })
     submitMovieBtn.addEventListener('click', async () => {
-        if(submitMovieTitleTextBox.value === ""){
+        if (submitMovieTitleTextBox.value === "") {
             alert('Enter a Title to Submit a Movie!')
-        } else if (submitMovieGenre.value === ""){
+        } else if (submitMovieGenre.value === "") {
             alert('Select a Genre!');
         } else {
             await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
             movies = await getMovies();
             await renderAllMovieCards();
         }
-        })
+    })
     movieCards.addEventListener('click', async (event) => {
         if (event.target.innerHTML === 'X') {
             let movieTitle = event.target.parentElement.parentElement.firstElementChild.nextElementSibling.innerHTML
@@ -242,20 +250,21 @@ async function updateMovie(title, genre, rating, id) {
             }
         } else if (event.target.innerHTML === 'EDIT') {
             renderEditForm(event.target.parentElement);
-        } else if (event.target.innerHTML === "+"){
+        } else if (event.target.innerHTML === "+") {
             let newFavorite = event.target.parentElement.parentElement.firstElementChild.nextElementSibling.innerHTML;
             favoritesList.push(newFavorite);
+            alert(`Added ${newFavorite} to Favorites Collection`);
             renderFavorites(favoritesList);
         }
     })
-    menuFavoritesLink.addEventListener('click', (event)=>{
-      favoritesListDiv.style.display = 'flex';
+    menuFavoritesLink.addEventListener('click', (event) => {
+        favoritesListDiv.style.display = 'flex';
     })
-    favoritesListDiv.addEventListener('mouseleave', ()=>{
+    favoritesListDiv.addEventListener('mouseleave', () => {
         favoritesListDiv.style.display = 'none';
     })
-    favoritesListDiv.addEventListener('click', (event)=>{
-        if(event.target.classList.contains('fav-item')){
+    favoritesListDiv.addEventListener('click', (event) => {
+        if (event.target.classList.contains('fav-item')) {
             console.log(event.target.innerHTML);
             searchMovies(event.target.innerHTML);
         }
