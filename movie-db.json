@@ -4,7 +4,7 @@
       "id": 1,
       "title": "Rush Hour",
       "genre": "Action",
-      "rating": "3"
+      "rating": "5"
     },
     {
       "id": 3,
@@ -67,22 +67,28 @@
       "rating": "3"
     },
     {
-      "title": "Test",
-      "genre": "Action",
-      "rating": "5",
-      "id": 15
+      "title": "Blazing Saddles",
+      "genre": "comedy",
+      "rating": "",
+      "id": 18
     },
     {
-      "title": "Tst",
-      "genre": "Action",
+      "title": "The Room",
+      "genre": "comedy",
       "rating": "",
-      "id": 16
+      "id": 19
     },
     {
-      "title": "Testing",
+      "title": "Scream",
+      "genre": "thriller",
+      "rating": "",
+      "id": 20
+    },
+    {
+      "title": "Ong Bak",
       "genre": "Action",
       "rating": "",
-      "id": 17
+      "id": 21
     }
   ]
 }

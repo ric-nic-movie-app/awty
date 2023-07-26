@@ -1,5 +1,5 @@
 let loaderAnim = document.querySelector('.loading');
-
+//Functions to talk to the Database/////////////////////////////////
 async function getMovies() {
     loaderAnim.style.display = 'flex';
     try {
@@ -70,6 +70,7 @@ async function updateMovie(title, genre, rating, id) {
 
 }
 
+//WHERE THE MAGIC HAPPENS////////////////////////////////
 (async () => {
     //VARIABLES AND QUERIES///////////////////////
     //variables
@@ -84,6 +85,9 @@ async function updateMovie(title, genre, rating, id) {
     let allMovieCards;
     const movieCard = document.querySelector('.movie-cards');
     let editForm;
+    let favoritesList = [];
+    let favoritesListDiv = document.querySelector('.favorites-list');
+    const menuFavoritesLink = document.querySelector('#menu-favorites');
 
     //FUNCTIONS////////////////
     function renderAllMovieCards() {
@@ -101,6 +105,7 @@ async function updateMovie(title, genre, rating, id) {
             <p class="movie-card-genre">${movie.genre}</p>
             <div class="card-mod">
             <span class="edit-movie">EDIT</span>
+            <span class="add-fav">+</span>
             <span class="delete-movie">X</span>
             </div>
             </div>    
@@ -109,7 +114,6 @@ async function updateMovie(title, genre, rating, id) {
         })
     }
     function renderSearchedMovies(movies) {
-        console.log('rendering searched movie cards');
         movieCards.innerHTML = "";
         movies.forEach((movie) => {
             let movieRating = parseInt(movie.rating);
@@ -124,6 +128,7 @@ async function updateMovie(title, genre, rating, id) {
             <p class="movie-card-genre">${movie.genre}</p>
             <div class="card-mod">
             <span class="edit-movie">EDIT</span>
+            <span class="add-fav">+</span>
             <span class="delete-movie">X</span>
             </div>
             </div> 
@@ -131,22 +136,18 @@ async function updateMovie(title, genre, rating, id) {
         })
     }
     function searchMovies(keyword) {
-        console.log(keyword);
         const searchedMovies = movies.filter((movie) => {
             const movieTitle = movie.title.toLowerCase();
             if (movieTitle.includes(keyword) || movie.title.includes(keyword)) {
                 return movie;
             }
-            ;
         })
-        console.log(searchedMovies);
         renderSearchedMovies(searchedMovies);
     }
     function renderEditForm(card) {
         let currentTitle = card.parentElement.firstElementChild.nextElementSibling.innerHTML;
         let currentGenre = card.parentElement.firstElementChild.nextElementSibling.nextElementSibling.innerHTML;
         let currentRating = card.parentElement.firstElementChild.innerHTML.split('').length;
-        console.log(card);
         card.parentElement.innerHTML += (`
             <div class="edit-form">
             <input type="text" class="text-box edit-title" value="${currentTitle}">
@@ -158,7 +159,7 @@ async function updateMovie(title, genre, rating, id) {
                     <option value="romance">Romance</option>
                     <option value="documentary">Documentary</option>
                 </select>
-            <input type="text" class="text-box edit-rating" value="${currentRating}">
+            <input type="number" name="number" min="0" max="5" class="text-box edit-rating" value="${currentRating}">
             <button class="edit-submit-btn button">OK</button>
             <button class="edit-cancel-btn button">CANCEL</button>
             </div>
@@ -178,18 +179,35 @@ async function updateMovie(title, genre, rating, id) {
                 if (isNaN(newRating.value)) {
                     alert('Please Enter a Number');
                 } else {
-                    console.log(currentTitle);
-                    let movieId = movies.filter((movie) => {
-                        return movie.title === currentTitle;
-                    });
-                    console.log(movieId);
-                    updateMovie(newTitle.value, newGenre.value, newRating.value, movieId[0].id);
-                    let form = event.target.parentElement;
-                    form.remove();
-                    location.reload();
+                    let confirmEdit = confirm(`Save Changes`);
+                    if(confirmEdit){
+                        let movieId = movies.filter((movie) => {
+                            return movie.title === currentTitle;
+                        });
+                        console.log(movieId);
+                        updateMovie(newTitle.value, newGenre.value, newRating.value, movieId[0].id);
+                        let form = event.target.parentElement;
+                        form.remove();
+                        location.reload();
+                    } else {
+                        let form = event.target.parentElement;
+                        form.remove();
+                    }
+
                 }
 
             })
+    }
+    function renderFavorites(favoritesList){
+        favoritesListDiv.innerHTML = "";
+        favoritesListDiv.innerHTML = (`
+        <h4>FAVORITES</h4>
+        `);
+        favoritesList.forEach((movie)=>{
+            favoritesListDiv.innerHTML += (`
+            <p class="fav-item">${movie}</p>
+            `)
+        })
     }
 
     //EVENTS//////////////
@@ -224,9 +242,24 @@ async function updateMovie(title, genre, rating, id) {
             }
         } else if (event.target.innerHTML === 'EDIT') {
             renderEditForm(event.target.parentElement);
+        } else if (event.target.innerHTML === "+"){
+            let newFavorite = event.target.parentElement.parentElement.firstElementChild.nextElementSibling.innerHTML;
+            favoritesList.push(newFavorite);
+            renderFavorites(favoritesList);
         }
     })
-
+    menuFavoritesLink.addEventListener('click', (event)=>{
+      favoritesListDiv.style.display = 'flex';
+    })
+    favoritesListDiv.addEventListener('mouseleave', ()=>{
+        favoritesListDiv.style.display = 'none';
+    })
+    favoritesListDiv.addEventListener('click', (event)=>{
+        if(event.target.classList.contains('fav-item')){
+            console.log(event.target.innerHTML);
+            searchMovies(event.target.innerHTML);
+        }
+    })
 
     //RUN ON LOAD//////////////
     console.log(movies);
