@@ -148,3 +148,11 @@ h4 {
 .button:hover {
     background-color: white;
 }
+
+.loading{
+    display: none;
+    justify-content: center;
+    border: solid white 3px;
+    border-radius: 10px;
+    padding: 5px;
+}

@@ -17,6 +17,7 @@
         <div class="column">
             <div class="nav-bar">
                 <div class="logo"><h1>LOGO HERE</h1></div>
+                <div class="loading">LOADING...</div>
                 <div><input class="text-box search-input" type="text" value="" placeholder="search" id="search-input">
                 </div>
                 <div></div>
@@ -38,20 +39,23 @@
             </ul>
             <h3>SUBMIT A MOVIE</h3>
             <ul class="submit-movie-form">
-                <li><input class="text-box submit-movie-title" id="submit-movie-title" type="text" value="" placeholder="Title"></li>
+                <li><input class="text-box submit-movie-title" id="submit-movie-title" type="text" value=""
+                           placeholder="Title"></li>
                 <li><select class="text-box submit-movie-genre" id="submit-movie-genre" name="select-genre">
-                <option>Action</option>
+                    <option>Action</option>
                     <option value="comedy">Comedy</option>
                     <option value="crime">Crime</option>
                     <option value="thriller">Thriller</option>
                     <option value="romance">Romance</option>
                     <option value="documentary">Documentary</option>
                 </select></li>
-                <li><button id="submit-movie-btn" class="submit-movie-btn button">SUBMIT</button></li>
+                <li>
+                    <button id="submit-movie-btn" class="submit-movie-btn button">SUBMIT</button>
+                </li>
             </ul>
         </div>
         <div class="column movies-container">
-        <h3>ALL MOVIES</h3>
+            <h3>ALL MOVIES</h3>
             <div class="movie-cards"></div>
         </div>
     </div>

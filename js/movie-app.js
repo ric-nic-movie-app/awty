@@ -1,8 +1,7 @@
-//AJAX REQUESTS/////////////////////
-//AJAX Requests include loading animation is displayed during request.
-//Buttons are disabled during the request, and the user is given feedback on the status of the requests
+let loaderAnim = document.querySelector('.loading');
 
 async function getMovies() {
+    loaderAnim.style.display = 'flex';
     try {
         const url = 'http://localhost:3000/movies'
         const options = {
@@ -13,13 +12,15 @@ async function getMovies() {
         }
         const response = await fetch(url, options);
         const movies = await response.json();
+        loaderAnim.style.display = 'none';
         return movies;
     } catch (error) {
+        loaderAnim.innerHTML = 'ERROR';
         console.log(error.message);
     }
 }
-
 async function addMovie(title, genre) {
+    loaderAnim.style.display = 'flex';
     const newMovie = {title: `${title}`, genre: `${genre}`, rating: ""};
     const url = 'http://localhost:3000/movies'
     const options = {
@@ -31,25 +32,26 @@ async function addMovie(title, genre) {
     }
     fetch(url, options)
         .then(response => {
-            // const movies = response.json()
+            loaderAnim.style.display = 'none';
             console.log(`added ${title}`)
         })
         .catch(error => console.error(error));
 }
-
 async function deleteMovie(id) {
+    loaderAnim.style.display = 'flex';
     const url = `http://localhost:3000/movies/${id}`
     const options = {
         method: 'DELETE'
     }
     fetch(url, options)
         .then(response => {
+            loaderAnim.style.display = 'none';
             console.log(`deleted`)
         })
         .catch(error => console.error(error));
 }
-
 async function updateMovie(title, genre, rating, id) {
+    loaderAnim.style.display = 'flex';
     const updatedMovieInfo = {title: `${title}`, genre: `${genre}`, rating: `${rating}`};
     const url = `http://localhost:3000/movies/${id}`
     const options = {
@@ -61,7 +63,7 @@ async function updateMovie(title, genre, rating, id) {
     }
     fetch(url, options)
         .then(response => {
-            // const movies = response.json()
+            loaderAnim.style.display = 'none';
             console.log(`updated ${title}`)
         })
         .catch(error => console.error(error));
