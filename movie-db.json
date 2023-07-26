@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "Rush Hour",
-      "genre": "Comedy",
+      "genre": "Action",
       "rating": "3"
     },
     {
@@ -22,7 +22,7 @@
       "id": 5,
       "title": "Bullet Train",
       "genre": "Action",
-      "rating": "3.5"
+      "rating": "4"
     },
     {
       "id": 6,
@@ -40,13 +40,13 @@
       "id": 8,
       "title": "The Italian Job",
       "genre": "Action",
-      "rating": "3.5"
+      "rating": "3"
     },
     {
       "id": 10,
       "title": "The Highwaymen",
       "genre": "Crime",
-      "rating": "3.5"
+      "rating": "3"
     },
     {
       "id": 11,
@@ -58,17 +58,31 @@
       "id": 12,
       "title": "Reservoir Dogs",
       "genre": "Thriller",
-      "rating": ""
+      "rating": "4"
     },
     {
       "title": "Ted",
       "genre": "Comedy",
-      "id": 14
+      "id": 14,
+      "rating": "3"
     },
     {
-      "title": "TER2 elec boogalo",
-      "genre": "WOW",
+      "title": "Test",
+      "genre": "Action",
+      "rating": "5",
       "id": 15
+    },
+    {
+      "title": "Tst",
+      "genre": "Action",
+      "rating": "",
+      "id": 16
+    },
+    {
+      "title": "Testing",
+      "genre": "Action",
+      "rating": "",
+      "id": 17
     }
   ]
 }

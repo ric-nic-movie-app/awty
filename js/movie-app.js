@@ -1,21 +1,26 @@
 //AJAX REQUESTS/////////////////////
-//AJAX Requests include error handling and loading animation is displayed during request.
+//AJAX Requests include loading animation is displayed during request.
 //Buttons are disabled during the request, and the user is given feedback on the status of the requests
+
 async function getMovies() {
-    const url = 'http://localhost:3000/movies'
-    const options = {
-        method: "GET",
-        headers: {
-            "content-type": "application/json"
+    try {
+        const url = 'http://localhost:3000/movies'
+        const options = {
+            method: "GET",
+            headers: {
+                "content-type": "application/json"
+            }
         }
+        const response = await fetch(url, options);
+        const movies = await response.json();
+        return movies;
+    } catch (error) {
+        console.log(error.message);
     }
-    const response = await fetch(url, options);
-    const movies = await response.json();
-    return movies;
 }
 
 async function addMovie(title, genre) {
-    const newMovie = {title: `${title}`, genre: `${genre}`};
+    const newMovie = {title: `${title}`, genre: `${genre}`, rating: ""};
     const url = 'http://localhost:3000/movies'
     const options = {
         method: "POST",
@@ -44,8 +49,8 @@ async function deleteMovie(id) {
         .catch(error => console.error(error));
 }
 
-async function updateMovie(title, genre, id) {
-    const updatedMovieInfo = {title: `${title}`, genre: `${genre}`};
+async function updateMovie(title, genre, rating, id) {
+    const updatedMovieInfo = {title: `${title}`, genre: `${genre}`, rating: `${rating}`};
     const url = `http://localhost:3000/movies/${id}`
     const options = {
         method: 'PATCH',
@@ -63,18 +68,6 @@ async function updateMovie(title, genre, id) {
 
 }
 
-//DOM Manip/////////////////////////
-//HTML is generated with appropriate CSS styles and animations, and provides an engaging and intuitive user experience.
-
-//Movie Management////////////////////
-//Editing existing movies is implemented, allowing users to edit their own ratings/reviews of movies. Movie management includes sorting movies by rating, title, or genre, and searching by rating, title or genre
-
-//UX/UI///////////////////////
-//Layout and design of application is consistent, intuitive, and well-designed. User feedback is considered and implemented to improve usability.
-
-//Code Quality////////////////////
-//Code is optimized for performance and follows accessibility and security best practices. Code is well-documented and includes tests for functionality and edge cases.
-
 (async () => {
     //VARIABLES AND QUERIES///////////////////////
     //variables
@@ -82,7 +75,6 @@ async function updateMovie(title, genre, id) {
     //queries
     const movieCards = document.querySelector(".movie-cards");
     const searchInput = document.querySelector("#search-input");
-    const sideMenuToggle = document.querySelector(".logo");
     const sideMenu = document.querySelector(".column.side-menu");
     const submitMovieTitleTextBox = document.querySelector("#submit-movie-title");
     const submitMovieGenre = document.querySelector("#submit-movie-genre");
@@ -95,31 +87,47 @@ async function updateMovie(title, genre, id) {
     function renderAllMovieCards() {
         movieCards.innerHTML = "";
         movies.forEach((movie) => {
+            let movieRating = parseInt(movie.rating);
+            let starRating = "";
+            for (let i = 0; i < movieRating; i++) {
+                starRating += "&starf;"
+            }
             movieCards.innerHTML += (`
             <div class="movie-card">
+            <div class="movie-card-rating">${starRating}</div>
             <h4 class="movie-card-title">${movie.title}</h4>
             <p class="movie-card-genre">${movie.genre}</p>
+            <div class="card-mod">
             <span class="edit-movie">EDIT</span>
             <span class="delete-movie">X</span>
+            </div>
             </div>    
             `)
             allMovieCards = document.querySelectorAll('.movie-card');
         })
     }
-
     function renderSearchedMovies(movies) {
         console.log('rendering searched movie cards');
         movieCards.innerHTML = "";
         movies.forEach((movie) => {
+            let movieRating = parseInt(movie.rating);
+            let starRating = "";
+            for (let i = 0; i < movieRating; i++) {
+                starRating += "&starf;"
+            }
             movieCards.innerHTML += (`
             <div class="movie-card">
-            <p>${movie.title}</p>
-            <p>${movie.genre}</p>
-            </div>    
+            <div class="movie-card-rating">${starRating}</div>
+            <h4 class="movie-card-title">${movie.title}</h4>
+            <p class="movie-card-genre">${movie.genre}</p>
+            <div class="card-mod">
+            <span class="edit-movie">EDIT</span>
+            <span class="delete-movie">X</span>
+            </div>
+            </div> 
             `)
         })
     }
-
     function searchMovies(keyword) {
         console.log(keyword);
         const searchedMovies = movies.filter((movie) => {
@@ -132,18 +140,30 @@ async function updateMovie(title, genre, id) {
         console.log(searchedMovies);
         renderSearchedMovies(searchedMovies);
     }
-
     function renderEditForm(card) {
-        card.innerHTML += (`
+        let currentTitle = card.parentElement.firstElementChild.nextElementSibling.innerHTML;
+        let currentGenre = card.parentElement.firstElementChild.nextElementSibling.nextElementSibling.innerHTML;
+        let currentRating = card.parentElement.firstElementChild.innerHTML.split('').length;
+        console.log(card);
+        card.parentElement.innerHTML += (`
             <div class="edit-form">
-            <input type="text" class="edit-title" value="">
-            <input type="text" class="edit-genre" value="">
-            <button class="edit-submit-btn">OK</button>
-            <button class="edit-cancel-btn">CANCEL</button>
+            <input type="text" class="text-box edit-title" value="${currentTitle}">
+            <select class="text-box edit-genre" id="edit-genre" name="select-new-genre" value="${currentGenre}">
+                <option>Action</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="crime">Crime</option>
+                    <option value="thriller">Thriller</option>
+                    <option value="romance">Romance</option>
+                    <option value="documentary">Documentary</option>
+                </select>
+            <input type="text" class="text-box edit-rating" value="${currentRating}">
+            <button class="edit-submit-btn button">OK</button>
+            <button class="edit-cancel-btn button">CANCEL</button>
             </div>
             `)
         let newTitle = document.querySelector('.edit-title');
         let newGenre = document.querySelector('.edit-genre');
+        let newRating = document.querySelector('.edit-rating');
 
         let editCancel = document.querySelector('.edit-cancel-btn')
             .addEventListener('click', (event) => {
@@ -153,14 +173,20 @@ async function updateMovie(title, genre, id) {
 
         let editSubmit = document.querySelector('.edit-submit-btn')
             .addEventListener('click', (event) => {
-                let currentTitle = event.target.parentElement.parentElement.firstElementChild.innerHTML;
-                console.log(currentTitle);
-                let movieId = movies.filter((movie) => {
-                    return movie.title === currentTitle;
-                });
-                updateMovie(newTitle.value, newGenre.value, movieId[0].id);
-                let form = event.target.parentElement;
-                form.remove();
+                if (isNaN(newRating.value)) {
+                    alert('Please Enter a Number');
+                } else {
+                    console.log(currentTitle);
+                    let movieId = movies.filter((movie) => {
+                        return movie.title === currentTitle;
+                    });
+                    console.log(movieId);
+                    updateMovie(newTitle.value, newGenre.value, newRating.value, movieId[0].id);
+                    let form = event.target.parentElement;
+                    form.remove();
+                    location.reload();
+                }
+
             })
     }
 
@@ -168,23 +194,21 @@ async function updateMovie(title, genre, id) {
     searchInput.addEventListener('keyup', (event) => {
         searchMovies(searchInput.value);
     })
-    sideMenuToggle.addEventListener('mouseover', (e) => {
-        sideMenu.style.display = "flex";
-        // console.log('click');
-    });
-    sideMenu.addEventListener('mouseleave', (e) => {
-        sideMenu.style.display = "none";
-    })
     submitMovieBtn.addEventListener('click', async () => {
-
-        await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
-        movies = await getMovies();
-        await renderAllMovieCards();
-    })
+        if(submitMovieTitleTextBox.value === ""){
+            alert('Enter a Title to Submit a Movie!')
+        } else if (submitMovieGenre.value === ""){
+            alert('Select a Genre!');
+        } else {
+            await addMovie(submitMovieTitleTextBox.value, submitMovieGenre.value);
+            movies = await getMovies();
+            await renderAllMovieCards();
+        }
+        })
     movieCards.addEventListener('click', async (event) => {
         if (event.target.innerHTML === 'X') {
-            let movieTitle = event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerHTML
-            let card = event.target.parentElement;
+            let movieTitle = event.target.parentElement.parentElement.firstElementChild.nextElementSibling.innerHTML
+            let card = event.target.parentElement.parentElement;
             let movieToDelete = movies.filter((movie) => {
                 return movie.title === movieTitle;
             })

@@ -28,23 +28,30 @@
     <div class="main row">
         <div class="column side-menu">
             <h3>MENU</h3>
-            <div>Profile</div>
-            <div>Favorites</div>
+            <div class="menu-item">Profile</div>
+            <div class="menu-item">Favorites</div>
             <h3>CATEGORIES</h3>
             <ul class="menu-sort-options">
-                <li>Genres</li>
-                <li>Most Popular</li>
-                <li>New</li>
+                <li class="menu-item">Genres</li>
+                <li class="menu-item">Most Popular</li>
+                <li class="menu-item">New</li>
             </ul>
             <h3>SUBMIT A MOVIE</h3>
             <ul class="submit-movie-form">
                 <li><input class="text-box submit-movie-title" id="submit-movie-title" type="text" value="" placeholder="Title"></li>
-                <li><input class="text-box submit-movie-genre" id="submit-movie-genre" type="text" value="" placeholder="Genre"></li>
-                <li><button id="submit-movie-btn" class="submit-movie-btn">SUBMIT</button></li>
+                <li><select class="text-box submit-movie-genre" id="submit-movie-genre" name="select-genre">
+                <option>Action</option>
+                    <option value="comedy">Comedy</option>
+                    <option value="crime">Crime</option>
+                    <option value="thriller">Thriller</option>
+                    <option value="romance">Romance</option>
+                    <option value="documentary">Documentary</option>
+                </select></li>
+                <li><button id="submit-movie-btn" class="submit-movie-btn button">SUBMIT</button></li>
             </ul>
         </div>
         <div class="column movies-container">
-            <h3>ALL MOVIES</h3>
+        <h3>ALL MOVIES</h3>
             <div class="movie-cards"></div>
         </div>
     </div>
